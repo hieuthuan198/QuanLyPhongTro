@@ -40,6 +40,12 @@ public class MotelService implements IMotelService{
 		return motelRepository.findModel().get(id);
 	}
 
+	@Override
+	public List<Motel1> search(String address) {
+		// TODO Auto-generated method stub
+		return motelRepository.search(address);
+	}
+
 	
 	
 

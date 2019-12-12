@@ -169,7 +169,15 @@ public class UserRestController implements ServletContextAware{
 				return new ResponseEntity<Motel1>(HttpStatus.BAD_REQUEST);
 			}
 		}
-	 
+	 @RequestMapping(value = "search/{address}", method = RequestMethod.GET, 
+				produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+			public ResponseEntity<List<Motel1>> findInvoiceByStatus(@PathVariable("address") String address) {
+				try {
+					return new ResponseEntity<List<Motel1>>(motelService.search(address) , HttpStatus.OK);
+				} catch (Exception e) {
+					return new ResponseEntity<List<Motel1>>(HttpStatus.BAD_REQUEST);
+				}
+			}
 	@Override
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
