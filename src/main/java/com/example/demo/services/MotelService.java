@@ -28,6 +28,23 @@ public class MotelService implements IMotelService{
 		return motelRepository.save(motel);
 	}
 
+	@Override
+	public List<Motel1> findModelByUsername(String username) {
+		// TODO Auto-generated method stub
+		return motelRepository.findModelByUsername(username);
+	}
+
+	@Override
+	public Motel1 find(int id) {
+		// TODO Auto-generated method stub
+		return motelRepository.findModel().get(id);
+	}
+
+	
+	
+
+	
+
 
 
 	

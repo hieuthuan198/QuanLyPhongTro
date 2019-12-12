@@ -14,6 +14,9 @@ import com.example.demo.entities.AccountModel;
 
 @Repository("accountRepository")
 public interface AccountRepository extends CrudRepository<Account, Integer>{
-	@Query("select new com.example.demo.entities.AccountModel(username,password) from Account where username =:username and password=:password")
+	@Query("select new com.example.demo.entities.AccountModel(a.username,a.password) from Account as a where a.username =:username and a.password=:password")
 	public List<AccountModel> checkAccount(@Param("username") String username,@Param("password") String password);
+	
+	@Query("select new com.example.demo.entities.AccountModel(a.username,a.password) from Account as a where a.username =:username and a.password=:password")
+	public List<AccountModel> findAllAcoount(@Param("username") String username,@Param("password") String password);
 }

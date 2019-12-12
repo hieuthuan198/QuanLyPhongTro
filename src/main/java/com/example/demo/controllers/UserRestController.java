@@ -10,11 +10,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -28,12 +32,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;s
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entities.Account;
+
 import com.example.demo.entities.Motel;
 import com.example.demo.entities.Motel1;
 //import com.example.demo.entities.Motel;
@@ -47,13 +53,14 @@ import com.example.demo.services.MotelService;
 
 @RestController
 @RequestMapping("api/motel")
-public class UserRestController {
+public class UserRestController implements ServletContextAware{
 
 	@Autowired
 	private MotelService motelService;
 	public String UploadImg="uploads";
 	//private BannerService bannerService;
-
+	private ServletContext servletContext;
+	
 	@RequestMapping(value = "findall", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Motel1>> findAll() {
 		try {
@@ -61,15 +68,43 @@ public class UserRestController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<Motel1>>(HttpStatus.BAD_REQUEST);
 		}
-	}
-	@RequestMapping(value ="create",method = RequestMethod.POST,
-			produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
-			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	
-	public ResponseEntity<Motel> create(@RequestBody Motel motel){
+	}@RequestMapping(value = "findbyusername/{username}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Motel1>> findAllMotelByUsername(@PathVariable ("username") String username) {
 		try {
+			return new ResponseEntity<List<Motel1>>(motelService.findModelByUsername(username),HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Motel1>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value ="create",method = RequestMethod.POST,
+			produces = MimeTypeUtils.ALL_VALUE,
+			consumes = MimeTypeUtils.ALL_VALUE)
+	
+	public ResponseEntity<Motel> create(@RequestBody Motel motel/*,@RequestParam("file") MultipartFile file*/){
+		try {
+		//	String fileName=saveFile(file);
+		//	System.out.println("af: "+fileName);
 			Account account=new Account();
 			account.setId(1);
+			
+			
+			
+			//motel.setImage1(fileName);
+			
+			
+		//	motel.setName("aaaa");
+		//	motel.setAddress("bbbb");
+		//	motel.setDescribe("sfa");
+		//	motel.setEmail("asgasg");
+		//	motel.setImage2("aga");
+		//	motel.setImage3("asgg");
+		//	motel.setImage4("asg");
+		//	motel.setPhoneNumber("4734");
+		//	motel.setPrice(2363);
+			motel.setStatus(true);
+			
+			
 			motel.setAccount(account);
 			motel=motelService.save(motel);
 			return new ResponseEntity<Motel>(motel,HttpStatus.OK);
@@ -80,6 +115,23 @@ public class UserRestController {
 		
 		}
 	}
+	
+	private String saveFile(MultipartFile file) {
+		try {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
+			String fileName = simpleDateFormat.format(new Date()) + file.getOriginalFilename();
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(servletContext.getRealPath ("/uploads/" + fileName));
+			Files.write(path, bytes);
+			return fileName;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	
+	
+	
 	
 	 @RequestMapping (value = "get/{name}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	    @ResponseBody
@@ -96,6 +148,7 @@ public class UserRestController {
 	            ImageIO.write(img, "png", bos);
 	            ImageIO.write(img, "jpg", bos);
 	            ImageIO.write(img, "gif", bos);
+	            ImageIO.write(img, "jpeg", bos);
 	            return bos.toByteArray();
 	        } catch (FileNotFoundException e) {
 	            return null; //todo: return safe photo instead
@@ -103,10 +156,29 @@ public class UserRestController {
 	            return null;  //todo: return safe photo instead
 	        }
 	    }
+	 
+	 
+	 @RequestMapping(value= "find/{id}",method = RequestMethod.GET,produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+		
+		public ResponseEntity<Motel1> find(@PathVariable("id") int id){
+			try {
+				
+				return new ResponseEntity<Motel1>(motelService.find(id),HttpStatus.OK);
+				
+			} catch (Exception e) {
+				return new ResponseEntity<Motel1>(HttpStatus.BAD_REQUEST);
+			}
+		}
+	 
+	@Override
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
+		
+	}
 	
 	
 	
-	@RequestMapping(value = "upload", method = RequestMethod.POST,produces = MimeTypeUtils.ALL_VALUE,
+	/*@RequestMapping(value = "upload", method = RequestMethod.POST,produces = MimeTypeUtils.ALL_VALUE,
 			consumes = MimeTypeUtils.ALL_VALUE)
 	public String upload(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
 		try {
@@ -140,7 +212,7 @@ public class UserRestController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	}
+	}*/
 	
 	
 	
