@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Account;
 import com.example.demo.entities.AccountModel;
+import com.example.demo.entities.Motel;
 //import com.example.demo.entities.Motel;
 //import com.example.demo.entities.Motel1;
 import com.example.demo.services.AccountService;
@@ -67,5 +68,18 @@ public class AccountRestController {
 		}
 		
 	}
+	 @RequestMapping(value ="update",method = RequestMethod.PUT,
+				produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
+				consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
+		
+		public ResponseEntity<Account> update(@RequestBody Account account){
+			try {
+				account=accountService.save(account);
+				return new ResponseEntity<Account>(account,HttpStatus.OK);
+				
+			} catch (Exception e) {
+				return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
+			}
+		}
 	
 }

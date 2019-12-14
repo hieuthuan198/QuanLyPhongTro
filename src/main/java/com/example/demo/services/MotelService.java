@@ -40,10 +40,18 @@ public class MotelService implements IMotelService{
 		return motelRepository.findModel().get(id);
 	}
 
+	
+
 	@Override
-	public List<Motel1> search(String address) {
+	public List<Motel1> search(String address, double price) {
 		// TODO Auto-generated method stub
-		return motelRepository.search(address);
+		return motelRepository.search(address, price);
+	}
+
+	@Override
+	public void delete(int id) {
+		motelRepository.deleteById(id);
+		
 	}
 
 	

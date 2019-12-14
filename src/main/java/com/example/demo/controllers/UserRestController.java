@@ -169,15 +169,45 @@ public class UserRestController implements ServletContextAware{
 				return new ResponseEntity<Motel1>(HttpStatus.BAD_REQUEST);
 			}
 		}
-	 @RequestMapping(value = "search/{address}", method = RequestMethod.GET, 
+	 @RequestMapping(value = "search/{address}/{price}", method = RequestMethod.GET, 
 				produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-			public ResponseEntity<List<Motel1>> findInvoiceByStatus(@PathVariable("address") String address) {
+			public ResponseEntity<List<Motel1>> search(@PathVariable("address") String address,@PathVariable("price") double price) {
 				try {
-					return new ResponseEntity<List<Motel1>>(motelService.search(address) , HttpStatus.OK);
+					return new ResponseEntity<List<Motel1>>(motelService.search(address,price) , HttpStatus.OK);
 				} catch (Exception e) {
 					return new ResponseEntity<List<Motel1>>(HttpStatus.BAD_REQUEST);
 				}
 			}
+	 
+	 
+	 @RequestMapping(value ="update",method = RequestMethod.PUT,
+				produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
+				consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
+		
+		public ResponseEntity<Motel> update(@RequestBody Motel motel){
+			try {
+				motel=motelService.save(motel);
+				return new ResponseEntity<Motel>(motel,HttpStatus.OK);
+				
+			} catch (Exception e) {
+				return new ResponseEntity<Motel>(HttpStatus.BAD_REQUEST);
+			}
+		}
+
+	 @RequestMapping(value ="delete",method = RequestMethod.PUT,
+				produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
+				consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
+		
+		public ResponseEntity<Motel> delete(@RequestBody Motel motel){
+			try {
+				motel.setStatus(false);
+				motel=motelService.save(motel);
+				return new ResponseEntity<Motel>(motel,HttpStatus.OK);
+				
+			} catch (Exception e) {
+				return new ResponseEntity<Motel>(HttpStatus.BAD_REQUEST);
+			}
+		}
 	@Override
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
