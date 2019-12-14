@@ -57,6 +57,15 @@ public class AccountRestController {
 		}
 		
 	}
-	
+	@RequestMapping(value = "login/{username}/{password}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AccountModel> login(@PathVariable("username") String username,@PathVariable("password") String password){
+		try {
+			
+			return new ResponseEntity<AccountModel>(accountService.login(username, password), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<AccountModel>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 	
 }

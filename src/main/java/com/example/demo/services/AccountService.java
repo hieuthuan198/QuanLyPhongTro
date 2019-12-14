@@ -25,6 +25,12 @@ public class AccountService implements IAccountService {
 		// TODO Auto-generated method stub
 		return accountRepository.checkAccount(username, password);
 	}
+	@Override
+	public AccountModel login(String username, String password) {
+		// TODO Auto-generated method stub
+		return accountRepository.Login(username, password);
+	}
+	
 	
 
 

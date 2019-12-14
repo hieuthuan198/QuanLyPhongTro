@@ -15,5 +15,5 @@ public interface IAccountService {
 	public Account save(Account account);
 	
 	public List<AccountModel> checkAccount(String username,String password);
-	
+	public AccountModel login(String username,String password);
 }
