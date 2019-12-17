@@ -158,7 +158,7 @@ public class UserRestController implements ServletContextAware{
 	    }
 	 
 	 
-	 @RequestMapping(value= "find/{id}",method = RequestMethod.GET,produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	/* @RequestMapping(value= "find/{id}",method = RequestMethod.GET,produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 		
 		public ResponseEntity<Motel1> find(@PathVariable("id") int id){
 			try {
@@ -168,7 +168,7 @@ public class UserRestController implements ServletContextAware{
 			} catch (Exception e) {
 				return new ResponseEntity<Motel1>(HttpStatus.BAD_REQUEST);
 			}
-		}
+		}*/
 	 @RequestMapping(value = "search/{address}/{price}", method = RequestMethod.GET, 
 				produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 			public ResponseEntity<List<Motel1>> search(@PathVariable("address") String address,@PathVariable("price") double price) {
@@ -186,6 +186,12 @@ public class UserRestController implements ServletContextAware{
 		
 		public ResponseEntity<Motel> update(@RequestBody Motel motel){
 			try {
+				Account account=new Account();
+				account.setId(1);
+				motel.setStatus(true);
+				
+				
+				motel.setAccount(account);
 				motel=motelService.save(motel);
 				return new ResponseEntity<Motel>(motel,HttpStatus.OK);
 				

@@ -16,7 +16,7 @@ public interface IMotelService {
 	public List<Motel1> findModelByUsername(String username);
 	
 	
-	public Motel1 find(int id);
+	//public Motel1 find(int id);
 	
 	public List<Motel1> search(String address,double price);
 	public void delete(int id);

@@ -34,13 +34,13 @@ public class MotelService implements IMotelService{
 		return motelRepository.findModelByUsername(username);
 	}
 
-	@Override
+	/*@Override
 	public Motel1 find(int id) {
 		// TODO Auto-generated method stub
 		return motelRepository.findModel().get(id);
 	}
 
-	
+	*/
 
 	@Override
 	public List<Motel1> search(String address, double price) {
