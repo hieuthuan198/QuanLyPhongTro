@@ -29,6 +29,25 @@ public class Motel1 {
 		this.email = email;
 	}
 
+	
+	
+	public Motel1(Integer id, String name, double price, String address, String email, String describe,
+			String phoneNumber, String image1, String image2, String image3, String image4, String type) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.address = address;
+		this.email = email;
+		this.describe = describe;
+		this.phoneNumber = phoneNumber;
+		this.image1 = image1;
+		this.image2 = image2;
+		this.image3 = image3;
+		this.image4 = image4;
+		this.type = type;
+	}
+
 	public Motel1(Integer id, String name, double price, String address, String email, String describe,
 			String phoneNumber, String image1, String image2, String image3, String image4, Account account,
 			boolean status) {
