@@ -21,4 +21,6 @@ public interface IMotelService {
 	public List<Motel1> search(String address,double price);
 	public void delete(int id);
 	public List<Motel1> searchPriceMoreThanFiveMillion(String address,double price);
+	public List<Motel1> searchAddress(String address);
+	
 }

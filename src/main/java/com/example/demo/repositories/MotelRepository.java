@@ -32,4 +32,6 @@ public interface MotelRepository extends CrudRepository<Motel, Integer>{
 	@Query( "select new com.example.demo.entities.Motel1(m.name,m.price,m.address,m.email,m.describe,m.phoneNumber,m.image1,m.image2,m.image3,m.image4,m.type) from Motel as m where m.address like %:address% and m.price >=:price")
 	public List<Motel1> searchPriceMoreThanFiveMillion(@Param("address") String address, @Param("price") double price);
 	
+	@Query( "select new com.example.demo.entities.Motel1(m.name,m.price,m.address,m.email,m.describe,m.phoneNumber,m.image1,m.image2,m.image3,m.image4,m.type) from Motel as m where m.address like %:address% ")
+	public List<Motel1> searchAdress(@Param("address") String address);
 }

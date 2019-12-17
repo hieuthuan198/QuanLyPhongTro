@@ -184,7 +184,17 @@ public class UserRestController implements ServletContextAware{
 				produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 			public ResponseEntity<List<Motel1>> searchPriceMoreThanFiveMillion(@PathVariable("address") String address,@PathVariable("price") double price) {
 				try {
-					return new ResponseEntity<List<Motel1>>(motelService.search(address,price) , HttpStatus.OK);
+					return new ResponseEntity<List<Motel1>>(motelService.searchPriceMoreThanFiveMillion(address, price) , HttpStatus.OK);
+				} catch (Exception e) {
+					return new ResponseEntity<List<Motel1>>(HttpStatus.BAD_REQUEST);
+				}
+			}
+	 
+	 @RequestMapping(value = "searchaddress/{address}", method = RequestMethod.GET, 
+				produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+			public ResponseEntity<List<Motel1>> searchAddress(@PathVariable("address") String address) {
+				try {
+					return new ResponseEntity<List<Motel1>>(motelService.searchAddress(address), HttpStatus.OK);
 				} catch (Exception e) {
 					return new ResponseEntity<List<Motel1>>(HttpStatus.BAD_REQUEST);
 				}
@@ -210,18 +220,14 @@ public class UserRestController implements ServletContextAware{
 			}
 		}
 
-	 @RequestMapping(value ="delete",method = RequestMethod.PUT,
-				produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
-				consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
-		
-		public ResponseEntity<Motel> delete(@RequestBody Motel motel){
+	 @RequestMapping(value ="delete/{id}",method = RequestMethod.DELETE)
+		public ResponseEntity<Void> delete(@PathVariable("id") int id){
 			try {
-				motel.setStatus(false);
-				motel=motelService.save(motel);
-				return new ResponseEntity<Motel>(motel,HttpStatus.OK);
+			motelService.delete(id);
+				return new ResponseEntity<Void>(HttpStatus.OK);
 				
 			} catch (Exception e) {
-				return new ResponseEntity<Motel>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 			}
 		}
 	@Override

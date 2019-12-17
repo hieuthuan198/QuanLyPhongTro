@@ -60,6 +60,12 @@ public class MotelService implements IMotelService{
 		return motelRepository.searchPriceMoreThanFiveMillion(address, price);
 	}
 
+	@Override
+	public List<Motel1> searchAddress(String address) {
+		// TODO Auto-generated method stub
+		return motelRepository.searchAdress(address);
+	}
+
 	
 	
 
