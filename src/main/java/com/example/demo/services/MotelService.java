@@ -54,6 +54,12 @@ public class MotelService implements IMotelService{
 		
 	}
 
+	@Override
+	public List<Motel1> searchPriceMoreThanFiveMillion(String address, double price) {
+		// TODO Auto-generated method stub
+		return motelRepository.searchPriceMoreThanFiveMillion(address, price);
+	}
+
 	
 	
 

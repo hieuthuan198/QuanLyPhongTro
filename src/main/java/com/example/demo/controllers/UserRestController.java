@@ -180,6 +180,16 @@ public class UserRestController implements ServletContextAware{
 			}
 	 
 	 
+	 @RequestMapping(value = "searchprice/{address}/{price}", method = RequestMethod.GET, 
+				produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+			public ResponseEntity<List<Motel1>> searchPriceMoreThanFiveMillion(@PathVariable("address") String address,@PathVariable("price") double price) {
+				try {
+					return new ResponseEntity<List<Motel1>>(motelService.search(address,price) , HttpStatus.OK);
+				} catch (Exception e) {
+					return new ResponseEntity<List<Motel1>>(HttpStatus.BAD_REQUEST);
+				}
+			}
+	 
 	 @RequestMapping(value ="update",method = RequestMethod.PUT,
 				produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
 				consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
